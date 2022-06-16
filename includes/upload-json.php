@@ -23,8 +23,7 @@ if(isset($_FILES['json_file'])){
     }
    
 
-    header('Location: /coding-challange/');
-    print_r($json_array);
+    header('Location: /coding-challenge/');
     exit;
 }  
 ?>
