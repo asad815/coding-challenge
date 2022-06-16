@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+body {
+	background: #f7f4fd;
+	font-size: 14px;
+	font-family: "Poppins", sans-serif;
+	margin: 0;
+	padding: 40px;
+}
+
+.blk {
+	padding: 20px;
+	background: #fff;
+	border-radius: 10px;
+	-webkit-box-shadow: 5px -2px 40px 2px rgb(96 49 217 / 5%);
+	box-shadow: 5px -2px 40px 2px rgb(96 49 217 / 5%);
+	border: 1px solid #fafafa;
+}
+
+.btn {
+	height: 40px;
+	background: #222;
+	color: #fff;
+	padding: 6px 20px;
+	border: 1px solid #222;
+	border-radius: 6px;
+	cursor: pointer;
+	-webkit-transition: all ease 0.5s;
+	transition: all ease 0.5s;
+}
+
+.btn:hover {
+	background: #fff;
+	color: #222;
+}
+
+.blk form .error,
+.blk form .success {
+	margin-bottom: 5px;
+}
+
+.blk form .error {
+	color: #de4040;
+}
+
+.blk form .success {
+	color: #40de40;
+}
+
+.blk form .inside {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-flow: wrap;
+	flex-flow: wrap;
+}
+
+.blk form label {
+	margin-right: 10px;
+	-ms-flex-item-align: center;
+	align-self: center;
+}
+
+.blk form input {
+	height: 40px;
+	background: #fff;
+	color: #222;
+	font-family: "Poppins", sans-serif;
+	padding: 6px 14px;
+	margin-right: 10px;
+	border: 1px solid #eee;
+	border-radius: 6px;
+	outline: none;
+	-webkit-transition: all ease 0.5s;
+	transition: all ease 0.5s;
+}
+
+.blk form input:hover {
+	border-color: #222;
+}
