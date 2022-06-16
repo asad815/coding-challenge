@@ -23,6 +23,7 @@ class Database
 
                 $event_version = isset($row['version']) ? $row['version'] : null;
                 $exits_event_id = $this->check_already_exits_event($row['event_name'], $event_version);
+                //Save Employees
                 if (!$exits_employee_id) {
                     $employee_insert_query = "INSERT INTO employees(employee_name, employee_mail) VALUES ('" . $row['employee_name'] . "', '" . $row['employee_mail'] . "')";
                     $this->mysql_obj->query($employee_insert_query);
@@ -30,7 +31,7 @@ class Database
                 } else {
                     $employee_id =  $exits_employee_id;
                 }
-
+                //Create Event
                 if (!$exits_event_id) {
 
                     $event_insert_query = "INSERT INTO events(event_name, event_date, version) VALUES ('" . $row['event_name'] . "', '" . $row['event_date'] . "', '" . $event_version . "')";
@@ -39,7 +40,7 @@ class Database
                 } else {
                     $event_id = $exits_event_id;
                 }
-
+                //Add participats to Event
                 if (!$this->already_participant($employee_id,  $event_id)) {
                     $this->already_participant($employee_id,  $event_id);
                     $event_participants_query = "INSERT INTO participants(employee_id, event_id, participation_fee) VALUES ('" . $employee_id . "', '" . $event_id . "', '" . $row['participation_fee'] . "')";
@@ -102,6 +103,44 @@ class Database
                     $rows[] = $row;
                 } 
                
+            return $rows;
+        }catch(Exception $e){
+            exit($e);
+        }
+        return [];
+    }
+    //Search Filter
+    function search (array $search) :array
+    {
+        try{
+            $query = "select employee.*, e.* , participant.participation_fee from employees employee, events e, participants participant where employee.employee_id=participant.employee_id and e.event_id = participant.event_id";
+            //Base on employee name
+            if(!empty($search['employee_name'])){
+                $query .= " and (employee.employee_name LIKE '%".$search['employee_name']."%'";
+            }
+            //Base on event name
+            if(empty($search['employee_name']) and !empty($search['event_name'])){
+                $query .= " and (e.event_name LIKE '%".$search['event_name']."%'";
+            }else if(!empty($search['event_name'])){
+                $query .= " or e.event_name LIKE '%".$search['event_name']."%'";
+            }
+            //Event Date
+            if(empty($search['employee_name']) and empty($search['event_name']) and !empty($search['event_date'])){
+                $set_date_formate = str_replace('/','-',$search['event_date']);
+                $event_date = date('Y-m-d', strtotime($set_date_formate));
+                $query .= " and (e.event_date = '{$event_date}'";
+            }else if( !empty($search['event_date']))
+            {
+                $set_date_formate = str_replace('/','-',$search['event_date']);
+                $event_date = date('Y-m-d', strtotime($set_date_formate));
+                $query .= " or e.event_date = '{$event_date}'";
+            }
+            $query .= ")";
+            $result = $this->mysql_obj->query($query);
+            $rows =[];
+            while($row = $result->fetch_assoc()){
+                $rows[] = $row;
+            }
             return $rows;
         }catch(Exception $e){
             exit($e);

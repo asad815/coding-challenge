@@ -40,6 +40,9 @@ include_once('includes/Database.php')
         <!-- Listing Table  -->
         <?php $rows = $mysql_obj->get_rows() ?>
         <?php if (count($rows)) : ?>
+           <div class="blk">
+            <div class="error error-msg"></div>
+           </div> 
             <table width="100%" border="1" id="table_records">
                 <thead>
                     <th>Sr #</th>
@@ -65,11 +68,48 @@ include_once('includes/Database.php')
                         <td colspan="4">
                             <p style="float: right ">Total Fee:</p>
                         </td>
-                        <td colspan=""><?= $total_fee ?></td>
+                        <td colspan="">€ <?= $total_fee ?></td>
                     </tr>
                 </tbody>
             </table>
         <?php endif ?>
     </div>
 </body>
+<script>
+    $(document).on('submit', '#search_filter', function(e) {
+        e.preventDefault();
+        let object = this;
+        $(object).find('button[type="submit"]').attr('disabled', true);
+        $.ajax({
+            url: "includes/ajax.php",
+            data: new FormData(object),
+            dataType: "JSON",
+            processData: false,
+            contentType: false,
+            method: "POST"
+        }).fail((error) => {
+            console.log();
+            if(error.responseJSON.msg){
+                $('.error-msg').html(error.responseJSON.msg);
+                $('#table_records').find('tbody').html('');
+            }else{
+                alert('something went wrong')
+            }
+        }).done((response) => {
+            $('#table_records').find('tbody').html('');
+            let rows = null;
+            let total_fee = 0;
+            if (response.rows.length > 0) {
+                response.rows.forEach(function(row, index) {
+                    rows += `<tr><td>${index+1}</td><td>${row.employee_name}</td><td>${row.employee_mail}</td><td>${row.event_name}</td><td>${row.participation_fee}</td></tr>`;
+                    total_fee += parseInt(row.participation_fee);
+                });
+                rows += ` <tr><td colspan="4"><p style="float: right ">Total Fee:</p></td><td colspan="">${total_fee}</td></tr>`
+                $('#table_records').find('tbody').html(rows);
+            }
+        }).always(()=>{
+            $(object).find('button[type="submit"]').attr('disabled', false);
+        })
+    })
+</script>
 </html>

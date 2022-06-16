@@ -42,6 +42,9 @@ body {
 .blk form .error {
 	color: #de4040;
 }
+.blk .error {
+	color: #de4040;
+}
 
 .blk form .success {
 	color: #40de40;
