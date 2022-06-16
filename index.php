@@ -12,6 +12,7 @@ include_once('includes/Database.php')
 
 <body>
     <div class="blk">
+        <!-- File Upload Form  -->
         <form action="includes/upload-json.php" method="post" enctype="multipart/form-data">
             <?php if (isset($_SESSION['error'])) : ?>
                 <div class="error"><?= $_SESSION['error'] ?></div>
@@ -27,6 +28,16 @@ include_once('includes/Database.php')
                 <button type="submit" class="btn">Upload</button>
             </div>
         </form>
+        <!-- Filter  -->
+        <form id="search_filter">
+            <div class="inside">
+                <input type="text" name="employee_name" id="employee_name" placeholder="Enter Name" />
+                <input type="text" name="event_name" id="event_name" placeholder="Enter Event Name" />
+                <input type="date" name="event_date" id="event_date" placeholder="d/m/y" />
+                <button type="submit" class="btn">Search</button>
+            </div>
+        </form>
+        <!-- Listing Table  -->
         <?php $rows = $mysql_obj->get_rows() ?>
         <?php if (count($rows)) : ?>
             <table width="100%" border="1" id="table_records">
@@ -59,5 +70,6 @@ include_once('includes/Database.php')
                 </tbody>
             </table>
         <?php endif ?>
+    </div>
 </body>
 </html>

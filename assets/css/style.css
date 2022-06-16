@@ -78,6 +78,9 @@ body {
 .blk form input:hover {
 	border-color: #222;
 }
+/*
+	Table CSS
+*/
 .blk table {
 	width: 100%;
 	border: 0;
@@ -96,4 +99,18 @@ body {
 	padding: 10px 15px;
 	border: 1px solid #eee;
 	font-size: inherit;
+}
+/*
+	Filter css
+*/
+.blk #search_filter .inside {
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+}
+
+.blk hr {
+	margin: 15px 0;
+	border: 0;
+	border-top: 1px solid #eee;
 }
